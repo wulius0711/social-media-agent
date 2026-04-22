@@ -23,6 +23,9 @@ jobs:
         env:
           OPENAI_API_KEY:            ${{ secrets.OPENAI_API_KEY }}
           IMGBB_API_KEY:             ${{ secrets.IMGBB_API_KEY }}
+          CLOUDINARY_CLOUD_NAME:     ${{ secrets.CLOUDINARY_CLOUD_NAME }}
+          CLOUDINARY_API_KEY:        ${{ secrets.CLOUDINARY_API_KEY }}
+          CLOUDINARY_API_SECRET:     ${{ secrets.CLOUDINARY_API_SECRET }}
           LINKEDIN_ACCESS_TOKEN:     ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
           LINKEDIN_AUTHOR_URN:       ${{ secrets.LINKEDIN_AUTHOR_URN }}
           INSTAGRAM_USER_ID:         ${{ secrets.INSTAGRAM_USER_ID }}

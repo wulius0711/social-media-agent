@@ -155,6 +155,57 @@ if st.button("🔗 LinkedIn verbinden"):
         else:
             st.info(f"Öffne diesen Link und bestätige: [LinkedIn Auth]({auth_url})")
 
+# ── Posting-Zeitplan ──────────────────────────────────────────────────────────
+
+st.divider()
+st.subheader("Posting-Zeitplan")
+st.caption("Wann soll der Agent automatisch posten? Änderungen werden direkt in GitHub übernommen.")
+
+DAY_OPTIONS = {
+    "Montag": 1, "Dienstag": 2, "Mittwoch": 3,
+    "Donnerstag": 4, "Freitag": 5, "Samstag": 6, "Sonntag": 0,
+}
+DAY_REVERSE = {v: k for k, v in DAY_OPTIONS.items()}
+
+current_days = c.get("schedule_days", [2, 5])
+current_hour = c.get("schedule_hour", 10)
+
+selected_day_names = st.multiselect(
+    "Posting-Tage",
+    options=list(DAY_OPTIONS.keys()),
+    default=[DAY_REVERSE[d] for d in current_days if d in DAY_REVERSE],
+)
+schedule_hour = st.slider("Uhrzeit (Wien)", min_value=6, max_value=20,
+                           value=current_hour, format="%d:00 Uhr")
+
+col_gh1, col_gh2 = st.columns(2)
+with col_gh1:
+    gh_token = st.text_input("GitHub Token (für Zeitplan-Update)",
+                              value=c.get("github_token", ""),
+                              type="password",
+                              help="Personal Access Token mit 'repo' und 'workflow' Scopes")
+with col_gh2:
+    gh_repo = st.text_input("GitHub Repo",
+                             value=c.get("github_repo", ""),
+                             placeholder="wulius0711/social-media-agent")
+
+if st.button("🕐 Zeitplan aktualisieren", disabled=not (selected_day_names and gh_token and gh_repo)):
+    from src.schedule_updater import update_github_schedule, DAY_NAMES
+    new_days = [DAY_OPTIONS[d] for d in selected_day_names]
+    try:
+        update_github_schedule(gh_token, gh_repo, new_days, schedule_hour)
+        c.update({
+            "schedule_days": new_days,
+            "schedule_hour": schedule_hour,
+            "github_token": gh_token,
+            "github_repo": gh_repo,
+        })
+        cfg.save(c)
+        day_str = ", ".join(selected_day_names)
+        st.success(f"✅ Zeitplan aktualisiert: {day_str} um {schedule_hour:02d}:00 Uhr")
+    except Exception as e:
+        st.error(f"Fehler beim Aktualisieren: {e}")
+
 # ── Speichern ─────────────────────────────────────────────────────────────────
 
 st.divider()
@@ -174,6 +225,8 @@ if st.button("💾 Einstellungen speichern", type="primary"):
         "cloudinary_cloud_name": cloudinary_name,
         "cloudinary_api_key": cloudinary_key,
         "cloudinary_api_secret": cloudinary_secret,
+        "github_token": gh_token,
+        "github_repo": gh_repo,
     })
     cfg.save(c)
     cfg.apply_to_env()

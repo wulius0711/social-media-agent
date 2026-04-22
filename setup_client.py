@@ -136,6 +136,13 @@ def main():
     generate_image = ask("Bilder mit DALL-E 3? (true/false)", default="false")
     print()
 
+    print("[ Posting-Zeitplan ]")
+    print("  Tage: 0=So 1=Mo 2=Di 3=Mi 4=Do 5=Fr 6=Sa")
+    days_input = ask("Posting-Tage (kommagetrennt)", default="2,5")
+    schedule_hour = int(ask("Uhrzeit Wien (Stunde, 6-20)", default="10"))
+    schedule_days = [int(d.strip()) for d in days_input.split(",")]
+    print()
+
     # ── Repo erstellen ────────────────────────────────────────────
     print("[ Erstelle GitHub Repo … ]")
     repo_full = create_repo_from_template(gh_token, repo_owner, client_slug)
@@ -166,6 +173,19 @@ def main():
         if value:
             set_secret(gh_token, repo_full, name, value)
             print(f"  ✅ {name}")
+    print()
+
+    # ── Zeitplan im Workflow setzen ───────────────────────────────
+    print("[ Aktualisiere Posting-Zeitplan … ]")
+    from src.schedule_updater import update_github_schedule
+    import time as _time
+    _time.sleep(3)  # wait for repo to be ready
+    try:
+        update_github_schedule(gh_token, repo_full, schedule_days, schedule_hour)
+        print(f"  ✅ Zeitplan gesetzt")
+    except Exception as e:
+        print(f"  ⚠️  Zeitplan konnte nicht gesetzt werden: {e}")
+        print("     → Manuell in GitHub Actions → post.yml anpassen")
     print()
 
     # ── Abschluss ─────────────────────────────────────────────────
