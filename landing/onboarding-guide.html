@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Agent — Einrichtungsanleitung</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    line-height: 1.65;
+    color: #1a1a2e;
+    background: #fff;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 40px;
+  }
+
+  /* Print */
+  @media print {
+    body { padding: 0; }
+    .no-print { display: none; }
+    .step { break-inside: avoid; }
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid #e8e8f0;
+  }
+  .logo { font-size: 22px; font-weight: 700; color: #1a1a2e; }
+  .logo span { color: #6c63ff; }
+  .header-meta { text-align: right; font-size: 12px; color: #888; line-height: 1.8; }
+
+  h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 8px;
+  }
+  .subtitle {
+    font-size: 15px;
+    color: #555;
+    margin-bottom: 36px;
+  }
+
+  /* Steps */
+  .steps { display: flex; flex-direction: column; gap: 24px; margin-bottom: 40px; }
+
+  .step {
+    display: flex;
+    gap: 20px;
+    padding: 20px 24px;
+    border: 1px solid #e8e8f0;
+    border-radius: 12px;
+    background: #fafafa;
+  }
+
+  .step-number {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    background: #6c63ff;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 15px;
+    margin-top: 2px;
+  }
+
+  .step-content h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #1a1a2e;
+  }
+  .step-content p { color: #444; font-size: 13.5px; }
+  .step-content .note {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: #f0eeff;
+    border-left: 3px solid #6c63ff;
+    border-radius: 4px;
+    font-size: 12.5px;
+    color: #555;
+  }
+  .step-content code {
+    font-family: monospace;
+    background: #eee;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 12px;
+  }
+
+  /* Checklist */
+  .checklist {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13.5px;
+    color: #444;
+  }
+  .checklist li::before {
+    content: "☐";
+    font-size: 15px;
+    color: #6c63ff;
+    flex-shrink: 0;
+    line-height: 1.4;
+  }
+
+  /* Info box */
+  .info-box {
+    background: #f0eeff;
+    border: 1px solid #d6d0ff;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 32px;
+  }
+  .info-box h3 { font-size: 13px; font-weight: 600; color: #6c63ff; margin-bottom: 6px; }
+  .info-box p { font-size: 13px; color: #555; }
+
+  /* Time badges */
+  .time {
+    display: inline-block;
+    background: #e8f5e9;
+    color: #2e7d32;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid #e8e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #999;
+  }
+  .footer a { color: #6c63ff; text-decoration: none; }
+
+  /* Print button */
+  .print-btn {
+    display: inline-block;
+    margin-bottom: 32px;
+    padding: 10px 20px;
+    background: #6c63ff;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .print-btn:hover { background: #5a52e0; }
+</style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">🖨️ Als PDF speichern</button>
+
+<div class="header">
+  <div class="logo">Social<span>Agent</span></div>
+  <div class="header-meta">
+    Dein Ansprechpartner<br>
+    Wolfgang Heis<br>
+    werbesan@gmail.com
+  </div>
+</div>
+
+<h1>Willkommen bei deinem Social Agent 🚀</h1>
+<p class="subtitle">
+  Diese Anleitung führt dich durch die Ersteinrichtung. Danach läuft alles automatisch —
+  du musst nur noch gelegentlich Posts freigeben.
+</p>
+
+<div class="info-box">
+  <h3>Was dich erwartet</h3>
+  <p>
+    Die Einrichtung dauert ca. <strong>10–15 Minuten</strong> und muss nur einmal gemacht werden.
+    Du brauchst Zugangsdaten zu LinkedIn und deinen OpenAI API Key.
+    Dein Ansprechpartner hat dir den App-Link bereits mitgeschickt.
+  </p>
+</div>
+
+<div class="steps">
+
+  <div class="step">
+    <div class="step-number">1</div>
+    <div class="step-content">
+      <h3>App öffnen <span class="time">1 Min</span></h3>
+      <p>
+        Öffne den App-Link den du erhalten hast. Du landest automatisch auf der
+        Einrichtungsseite. Klicke auf <strong>„Los geht's"</strong>.
+      </p>
+      <div class="note">Der Link sieht so aus: <code>https://dein-name.streamlit.app</code></div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-number">2</div>
+    <div class="step-content">
+      <h3>Business-Profil ausfüllen <span class="time">3–5 Min</span></h3>
+      <p>Das ist das Herzstück — der Agent schreibt in deiner Stimme auf Basis dieser Angaben.</p>
+      <ul class="checklist">
+        <li>Dein Name oder Unternehmensname</li>
+        <li>Was du anbietest (2–4 Sätze: Leistung, Zielgruppe, was dich unterscheidet)</li>
+        <li>Deine Zielgruppe (z.B. „Selbstständige in Wien")</li>
+        <li>Deine Tonalität (z.B. „direkt, kein Fachjargon, auf Augenhöhe")</li>
+        <li>Sprache der Posts (Standard: Deutsch)</li>
+      </ul>
+      <div class="note">
+        Tipp: Je konkreter du die Tonalität beschreibst, desto besser trifft der Agent deinen Stil.
+        Beispiel: <em>„Ich sage nie ‚innovativ'. Lieber ein konkretes Beispiel."</em>
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-number">3</div>
+    <div class="step-content">
+      <h3>OpenAI API Key eintragen <span class="time">3 Min</span></h3>
+      <p>Der Agent braucht diesen Key um Posts zu generieren. Du zahlst direkt an OpenAI
+      — ca. 1–3 € pro Monat bei 2 Posts pro Woche.</p>
+      <ul class="checklist">
+        <li>Gehe zu <strong>platform.openai.com/api-keys</strong></li>
+        <li>Klicke auf <strong>„Create new secret key"</strong></li>
+        <li>Kopiere den Key (beginnt mit <code>sk-proj-…</code>)</li>
+        <li>Trage ihn in der App ein und klicke <strong>„Weiter"</strong></li>
+      </ul>
+      <div class="note">
+        Falls du noch kein OpenAI-Konto hast: <strong>platform.openai.com</strong> →
+        Registrieren → Zahlungsmethode hinterlegen (Kreditkarte, wird erst ab Verbrauch belastet).
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-number">4</div>
+    <div class="step-content">
+      <h3>LinkedIn verbinden <span class="time">5 Min</span></h3>
+      <p>Einmalige Verbindung — danach postet der Agent automatisch auf dein LinkedIn-Profil.
+      Der Zugang läuft nach 60 Tagen ab und muss dann kurz erneuert werden.</p>
+      <ul class="checklist">
+        <li>In der App auf <strong>„Ich habe bereits eine App"</strong> klicken</li>
+        <li>Client ID und Client Secret eintragen (von deinem Ansprechpartner erhalten)</li>
+        <li>Auf <strong>„🔗 LinkedIn verbinden"</strong> klicken</li>
+        <li>Im Browser-Fenster mit LinkedIn einloggen und bestätigen</li>
+        <li>Grüner Haken erscheint → fertig</li>
+      </ul>
+      <div class="note">
+        Kein Browser-Fenster öffnet sich? Stelle sicher dass Popups für die App erlaubt sind,
+        oder wende dich an deinen Ansprechpartner.
+      </div>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-number">5</div>
+    <div class="step-content">
+      <h3>Post-Einstellungen & Abschluss <span class="time">1 Min</span></h3>
+      <p>Wähle deine bevorzugten Standardeinstellungen für neue Posts:</p>
+      <ul class="checklist">
+        <li>Post-Länge: Kurz / Mittel / Lang</li>
+        <li>Ton: Direkt / Sachlich / Storytelling</li>
+        <li>Hashtag-Anzahl</li>
+      </ul>
+      <p style="margin-top:10px">Klicke auf <strong>„Einrichtung abschließen ✅"</strong> —
+      die App schaltet sich frei und du kannst direkt loslegen.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="info-box">
+  <h3>Was jetzt passiert</h3>
+  <p>
+    Der Agent postet ab sofort automatisch <strong>jeden Dienstag und Freitag um 10:00 Uhr</strong>.
+    Du kannst unter <strong>✅ Genehmigung</strong> Posts vorab prüfen und freigeben —
+    oder alles einfach automatisch laufen lassen.
+    Das ausführliche Handbuch findest du in der App unter <strong>📖 Handbuch</strong>.
+  </p>
+</div>
+
+<div class="footer">
+  <div>Social Agent · Erstellt von Wolfgang Heis</div>
+  <div><a href="mailto:werbesan@gmail.com">werbesan@gmail.com</a></div>
+</div>
+
+</body>
+</html>
