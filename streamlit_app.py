@@ -78,6 +78,10 @@ with st.sidebar:
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 
+if not c.get("setup_complete"):
+    st.warning("⚠️ Einrichtung noch nicht abgeschlossen — gehe zu **🚀 Einrichtung** in der Sidebar.")
+    st.stop()
+
 st.header("Post erstellen")
 
 col_topic, col_btn = st.columns([4, 1])
