@@ -8,13 +8,16 @@ from pathlib import Path
 from src import config as cfg
 cfg.apply_to_env()
 
+_handlers = [logging.StreamHandler()]
+if sys.platform == "darwin":
+    _log_dir = Path.home() / "Library" / "Logs"
+    _log_dir.mkdir(parents=True, exist_ok=True)
+    _handlers.append(logging.FileHandler(_log_dir / "WolfgangSocialAgent.log"))
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s %(levelname)s %(message)s",
-    handlers=[
-        logging.FileHandler(Path.home() / "Library" / "Logs" / "WolfgangSocialAgent.log"),
-        logging.StreamHandler(),
-    ]
+    handlers=_handlers,
 )
 log = logging.getLogger(__name__)
 
