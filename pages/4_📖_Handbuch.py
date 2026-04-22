@@ -85,6 +85,7 @@ Unterhalb der Textvorschau findest du zwei Upload-Felder:
 - Video Upload → wird als Reel (Instagram) und Video-Post (LinkedIn) gepostet
 
 Für Videos wird ein **Cloudinary-Konto** benötigt (kostenlos, cloudinary.com).
+→ Schritt-für-Schritt Anleitung und Videoformat-Anforderungen: siehe **„Wie lade ich ein Video hoch?"** in den Häufigen Fragen weiter unten.
 """)
 
 st.info("Tipp: 'Zur Genehmigung senden' gibt dir die Möglichkeit, den Text nochmal in Ruhe zu lesen bevor er live geht.")
