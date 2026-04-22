@@ -9,6 +9,9 @@ DEFAULTS = {
     # API Keys
     "openai_api_key": "",
     "imgbb_api_key": "",
+    "cloudinary_cloud_name": "",
+    "cloudinary_api_key": "",
+    "cloudinary_api_secret": "",
     "instagram_user_id": "",
     "instagram_access_token": "",
     "linkedin_access_token": "",
@@ -81,6 +84,9 @@ def apply_to_env():
     pairs = {
         "openai_api_key": "OPENAI_API_KEY",
         "imgbb_api_key": "IMGBB_API_KEY",
+        "cloudinary_cloud_name": "CLOUDINARY_CLOUD_NAME",
+        "cloudinary_api_key": "CLOUDINARY_API_KEY",
+        "cloudinary_api_secret": "CLOUDINARY_API_SECRET",
         "instagram_user_id": "INSTAGRAM_USER_ID",
         "instagram_access_token": "INSTAGRAM_ACCESS_TOKEN",
         "linkedin_access_token": "LINKEDIN_ACCESS_TOKEN",

@@ -70,6 +70,17 @@ with col2:
                               value=c.get("instagram_access_token", ""),
                               type="password")
 
+st.divider()
+st.subheader("Cloudinary (für Video-Posts)")
+st.caption("Kostenloser Account reicht. cloudinary.com → Dashboard → Cloud Name / API Key / API Secret")
+col1, col2, col3 = st.columns(3)
+with col1:
+    cloudinary_name = st.text_input("Cloud Name", value=c.get("cloudinary_cloud_name", ""))
+with col2:
+    cloudinary_key = st.text_input("API Key", value=c.get("cloudinary_api_key", ""))
+with col3:
+    cloudinary_secret = st.text_input("API Secret", value=c.get("cloudinary_api_secret", ""), type="password")
+
 # ── LinkedIn OAuth ────────────────────────────────────────────────────────────
 
 st.divider()
@@ -160,6 +171,9 @@ if st.button("💾 Einstellungen speichern", type="primary"):
         "linkedin_author_urn": li_urn,
         "instagram_user_id": ig_user_id,
         "instagram_access_token": ig_token,
+        "cloudinary_cloud_name": cloudinary_name,
+        "cloudinary_api_key": cloudinary_key,
+        "cloudinary_api_secret": cloudinary_secret,
     })
     cfg.save(c)
     cfg.apply_to_env()

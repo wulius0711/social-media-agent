@@ -153,6 +153,26 @@ with tab_tt:
 
 st.divider()
 
+# ── Medien hochladen ──────────────────────────────────────────────────────────
+
+st.subheader("Medien (optional)")
+col_img_up, col_vid_up = st.columns(2)
+with col_img_up:
+    uploaded_image = st.file_uploader(
+        "Bild hochladen", type=["jpg", "jpeg", "png", "webp"],
+        help="Ersetzt das DALL-E Bild wenn ausgewählt"
+    )
+with col_vid_up:
+    uploaded_video = st.file_uploader(
+        "Video hochladen", type=["mp4", "mov", "avi"],
+        help="Wird als Reel (Instagram) und Video-Post (LinkedIn) gepostet. Benötigt Cloudinary."
+    )
+
+if uploaded_video:
+    st.info("📹 Video erkannt — wird als Reel auf Instagram und Video-Post auf LinkedIn gepostet.")
+
+st.divider()
+
 # ── Action buttons ────────────────────────────────────────────────────────────
 
 has_content = bool(st.session_state.linkedin_text or st.session_state.instagram_text)
@@ -183,26 +203,52 @@ with col_approve:
             platforms=platforms,
         )
         st.success(f"✅ Post #{post_id} wartet auf Genehmigung — siehe ✅ Genehmigung")
+        st.caption("Hinweis: Hochgeladene Medien nur beim Direkt-Posten verfügbar.")
 
 with col_post:
     if st.button("📤 Direkt posten", use_container_width=True,
                   disabled=not has_content):
+        import tempfile
         errors = []
         successes = []
         image_path = None
+        video_path = None
+        _tmp_files = []
 
         with st.spinner("Wird gepostet …"):
-            if use_image and st.session_state.topic:
+            # Save uploaded media to temp files
+            if uploaded_video:
+                tmp_v = tempfile.NamedTemporaryFile(
+                    delete=False, suffix="." + uploaded_video.name.split(".")[-1]
+                )
+                tmp_v.write(uploaded_video.read())
+                tmp_v.close()
+                video_path = tmp_v.name
+                _tmp_files.append(video_path)
+            elif uploaded_image:
+                tmp_i = tempfile.NamedTemporaryFile(
+                    delete=False, suffix="." + uploaded_image.name.split(".")[-1]
+                )
+                tmp_i.write(uploaded_image.read())
+                tmp_i.close()
+                image_path = tmp_i.name
+                _tmp_files.append(image_path)
+            elif use_image and st.session_state.topic:
                 try:
                     from src.image_generator import generate_image
                     image_path = generate_image(st.session_state.topic)
+                    _tmp_files.append(image_path)
                 except Exception as e:
                     errors.append(f"Bild: {e}")
 
             if post_li and st.session_state.linkedin_text:
                 try:
                     from src.linkedin_poster import post_to_linkedin
-                    post_to_linkedin(st.session_state.linkedin_text, image_path)
+                    post_to_linkedin(
+                        st.session_state.linkedin_text,
+                        image_path=image_path,
+                        video_path=video_path,
+                    )
                     successes.append("LinkedIn")
                 except Exception as e:
                     errors.append(f"LinkedIn: {e}")
@@ -211,7 +257,11 @@ with col_post:
                 if os.getenv("INSTAGRAM_ACCESS_TOKEN", "").startswith("EAA"):
                     try:
                         from src.instagram_poster import post_to_instagram
-                        post_to_instagram(st.session_state.instagram_text, image_path)
+                        post_to_instagram(
+                            st.session_state.instagram_text,
+                            image_path=image_path,
+                            video_path=video_path,
+                        )
                         successes.append("Instagram")
                     except Exception as e:
                         errors.append(f"Instagram: {e}")
@@ -223,8 +273,9 @@ with col_post:
             if post_tt:
                 errors.append("TikTok: noch nicht eingerichtet")
 
-            if image_path and os.path.exists(image_path):
-                os.unlink(image_path)
+            for f in _tmp_files:
+                if os.path.exists(f):
+                    os.unlink(f)
 
         if successes:
             st.success(f"✅ Gepostet auf: {', '.join(successes)}")

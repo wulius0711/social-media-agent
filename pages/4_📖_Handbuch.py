@@ -66,9 +66,25 @@ Oder gib ein konkretes Thema ein, z.B. *„Warum Webdesign mehr als Ästhetik is
 1. Klicke **✨ Generieren**
 2. Lies den generierten Text in den Tabs (LinkedIn, Instagram …)
 3. Bearbeite ihn direkt im Textfeld falls gewünscht
-4. Wähle:
+4. Optional: **Bild oder Video hochladen** (siehe unten)
+5. Wähle:
    - **📋 Zur Genehmigung senden** → Post landet in der Warteschlange (empfohlen)
    - **📤 Direkt posten** → Post geht sofort raus
+
+**Eigene Bilder & Videos hochladen:**
+
+Unterhalb der Textvorschau findest du zwei Upload-Felder:
+
+| Upload | Formate | Plattform |
+|---|---|---|
+| Bild | JPG, PNG, WEBP | LinkedIn + Instagram |
+| Video | MP4, MOV, AVI | LinkedIn (Video-Post) + Instagram (Reel) |
+
+- Kein Upload → DALL-E Bild wird verwendet (wenn aktiviert), oder nur Text
+- Bild Upload → ersetzt DALL-E Bild
+- Video Upload → wird als Reel (Instagram) und Video-Post (LinkedIn) gepostet
+
+Für Videos wird ein **Cloudinary-Konto** benötigt (kostenlos, cloudinary.com).
 """)
 
 st.info("Tipp: 'Zur Genehmigung senden' gibt dir die Möglichkeit, den Text nochmal in Ruhe zu lesen bevor er live geht.")
@@ -189,6 +205,20 @@ with st.expander("Was kostet ein generierter Post?"):
 Ein Post mit GPT-4o kostet ca. **0,01–0,03 €** (je nach Länge).
 Ein Bild mit DALL-E 3 kostet ca. **0,04 €** pro Bild.
 Bei 2 Posts pro Woche ca. **1–3 € pro Monat** für die OpenAI API.
+    """)
+
+with st.expander("Wie lade ich ein Video hoch?"):
+    st.markdown("""
+Auf der Hauptseite (🏠 Post erstellen) findest du unter den Textvorschauen
+zwei Upload-Felder — eines für Bilder, eines für Videos.
+
+Für Videos brauchst du ein **Cloudinary-Konto** (kostenlos):
+1. cloudinary.com → Registrieren
+2. Dashboard → Cloud Name, API Key, API Secret kopieren
+3. In ⚙️ Einstellungen → Cloudinary eintragen → Speichern
+
+Dann Video hochladen → **📤 Direkt posten** klicken.
+Das Video wird automatisch auf Cloudinary hochgeladen, LinkedIn und Instagram erhalten die URL.
     """)
 
 with st.expander("Kann ich auch auf Facebook oder TikTok posten?"):
