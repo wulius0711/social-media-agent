@@ -212,13 +212,25 @@ with st.expander("Wie lade ich ein Video hoch?"):
 Auf der Hauptseite (🏠 Post erstellen) findest du unter den Textvorschauen
 zwei Upload-Felder — eines für Bilder, eines für Videos.
 
-Für Videos brauchst du ein **Cloudinary-Konto** (kostenlos):
+**Schritt 1 — Cloudinary einrichten (einmalig, kostenlos):**
 1. cloudinary.com → Registrieren
 2. Dashboard → Cloud Name, API Key, API Secret kopieren
 3. In ⚙️ Einstellungen → Cloudinary eintragen → Speichern
 
-Dann Video hochladen → **📤 Direkt posten** klicken.
+**Schritt 2 — Video vorbereiten:**
+
+| | Instagram Reel | LinkedIn |
+|---|---|---|
+| Format | MP4, H.264 | MP4 |
+| Max. Länge | 90 Sekunden | 10 Minuten |
+| Max. Größe | — | 5 GB |
+| Empfohlenes Format | 9:16 (Hochformat) | 16:9 oder 1:1 |
+
+**Schritt 3 — Hochladen & posten:**
+Video hochladen → **📤 Direkt posten** klicken.
 Das Video wird automatisch auf Cloudinary hochgeladen, LinkedIn und Instagram erhalten die URL.
+
+⚠️ LinkedIn verarbeitet Videos nach dem Upload noch **1–3 Minuten** — der Post erscheint danach automatisch.
     """)
 
 with st.expander("Kann ich auch auf Facebook oder TikTok posten?"):
