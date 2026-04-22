@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.wolfgangheis.socialagent</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/env</string>
+        <string>python3</string>
+        <string>/Users/wulius/social-media-agent/main.py</string>
+    </array>
+
+    <key>StartCalendarInterval</key>
+    <array>
+        <!-- Dienstag 10:00 -->
+        <dict>
+            <key>Weekday</key>
+            <integer>2</integer>
+            <key>Hour</key>
+            <integer>10</integer>
+            <key>Minute</key>
+            <integer>0</integer>
+        </dict>
+        <!-- Freitag 10:00 -->
+        <dict>
+            <key>Weekday</key>
+            <integer>5</integer>
+            <key>Hour</key>
+            <integer>10</integer>
+            <key>Minute</key>
+            <integer>0</integer>
+        </dict>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/wulius/social-media-agent</string>
+
+    <key>StandardOutPath</key>
+    <string>/Users/wulius/social-media-agent/logs/stdout.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/wulius/social-media-agent/logs/stderr.log</string>
+
+    <key>RunAtLoad</key>
+    <false/>
+</dict>
+</plist>
