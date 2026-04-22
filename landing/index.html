@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Social Media auf Autopilot · Wolfgang Heis</title>
+    <meta
+      name="description"
+      content="Dein Business postet automatisch auf LinkedIn & Instagram — mit Texten in deiner Stimme. Kein Agentur-Overhead, kein generischer KI-Brei."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #080c14;
+        --bg2: #0f1520;
+        --bg3: #161d2e;
+        --border: #1e2a3d;
+        --blue: #2563eb;
+        --blue-h: #1d4ed8;
+        --blue-glow: #2563eb33;
+        --text: #f0f4ff;
+        --muted: #8896b3;
+        --green: #16a34a;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        font-size: 16px;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      /* ── Nav ── */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 2rem;
+        background: rgba(8, 12, 20, 0.85);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+      }
+      .nav-logo {
+        font-weight: 700;
+        font-size: 1rem;
+        color: var(--text);
+      }
+      .nav-logo span {
+        color: var(--blue);
+      }
+      .nav-cta {
+        background: var(--blue);
+        color: #fff;
+        padding: 0.5rem 1.25rem;
+        border-radius: 8px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        transition: background 0.2s;
+      }
+      .nav-cta:hover {
+        background: var(--blue-h);
+      }
+
+      /* ── Sections ── */
+      section {
+        padding: 6rem 1.5rem;
+      }
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+      .center {
+        text-align: center;
+      }
+
+      /* ── Hero ── */
+      #hero {
+        padding-top: 9rem;
+        background: radial-gradient(
+          ellipse 80% 60% at 50% -10%,
+          #1a2d5a 0%,
+          transparent 70%
+        );
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--bg3);
+        border: 1px solid var(--border);
+        padding: 0.35rem 1rem;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        color: var(--muted);
+        margin-bottom: 2rem;
+      }
+      .badge span {
+        color: var(--blue);
+        font-weight: 600;
+      }
+      h1 {
+        font-size: clamp(2.4rem, 5vw, 4rem);
+        font-weight: 800;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        margin-bottom: 1.5rem;
+      }
+      h1 em {
+        font-style: normal;
+        color: var(--blue);
+      }
+      .hero-sub {
+        font-size: 1.2rem;
+        color: var(--muted);
+        max-width: 620px;
+        margin: 0 auto 2.5rem;
+      }
+      .hero-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .btn-primary {
+        background: var(--blue);
+        color: #fff;
+        padding: 0.9rem 2rem;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 700;
+        transition:
+          background 0.2s,
+          transform 0.1s;
+        display: inline-block;
+      }
+      .btn-primary:hover {
+        background: var(--blue-h);
+        transform: translateY(-1px);
+      }
+      .btn-ghost {
+        color: var(--muted);
+        font-size: 0.95rem;
+        font-weight: 500;
+        padding: 0.9rem 1.5rem;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        transition:
+          border-color 0.2s,
+          color 0.2s;
+      }
+      .btn-ghost:hover {
+        border-color: var(--blue);
+        color: var(--text);
+      }
+
+      .hero-visual {
+        margin-top: 4rem;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 2rem;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        box-shadow: 0 0 80px var(--blue-glow);
+      }
+      .mock-bar {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .mock-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+      .mock-dot:nth-child(1) {
+        background: #ff5f57;
+      }
+      .mock-dot:nth-child(2) {
+        background: #febc2e;
+      }
+      .mock-dot:nth-child(3) {
+        background: #28c840;
+      }
+      .mock-tabs {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .mock-tab {
+        padding: 0.4rem 1rem;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        cursor: default;
+      }
+      .mock-tab.active {
+        background: var(--blue);
+        color: #fff;
+      }
+      .mock-tab:not(.active) {
+        background: var(--bg3);
+        color: var(--muted);
+      }
+      .mock-text {
+        background: var(--bg3);
+        border-radius: 10px;
+        padding: 1.25rem;
+        font-size: 0.85rem;
+        line-height: 1.7;
+        color: #c8d4ef;
+        min-height: 120px;
+      }
+      .mock-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1rem;
+      }
+      .mock-chars {
+        font-size: 0.75rem;
+        color: var(--muted);
+      }
+      .mock-btn {
+        background: var(--green);
+        color: #fff;
+        padding: 0.5rem 1.25rem;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        font-weight: 700;
+      }
+
+      /* ── Problem ── */
+      #problem {
+        background: var(--bg2);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+      .problem-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-top: 3rem;
+      }
+      .problem-card {
+        background: var(--bg3);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 1.5rem;
+      }
+      .problem-card .icon {
+        font-size: 1.75rem;
+        margin-bottom: 0.75rem;
+      }
+      .problem-card h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+      .problem-card p {
+        font-size: 0.875rem;
+        color: var(--muted);
+      }
+
+      /* ── How it works ── */
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+        counter-reset: steps;
+      }
+      .step {
+        position: relative;
+      }
+      .step-num {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--blue-glow);
+        border: 1px solid var(--blue);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        color: var(--blue);
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+      }
+      .step h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+      .step p {
+        font-size: 0.875rem;
+        color: var(--muted);
+      }
+
+      /* ── Features ── */
+      #features {
+        background: var(--bg2);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-top: 3rem;
+      }
+      .feature-card {
+        background: var(--bg3);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 1.75rem;
+        transition: border-color 0.2s;
+      }
+      .feature-card:hover {
+        border-color: var(--blue);
+      }
+      .feature-card .icon {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+      .feature-card h3 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+      .feature-card p {
+        font-size: 0.875rem;
+        color: var(--muted);
+      }
+
+      /* ── Pricing ── */
+      .pricing-card {
+        background: var(--bg2);
+        border: 2px solid var(--blue);
+        border-radius: 20px;
+        padding: 3rem;
+        max-width: 480px;
+        margin: 3rem auto 0;
+        text-align: center;
+        box-shadow: 0 0 60px var(--blue-glow);
+      }
+      .price {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin: 1rem 0 0.25rem;
+      }
+      .price span {
+        font-size: 1.25rem;
+        font-weight: 500;
+        color: var(--muted);
+      }
+      .price-sub {
+        color: var(--muted);
+        font-size: 0.9rem;
+        margin-bottom: 2rem;
+      }
+      .price-features {
+        list-style: none;
+        text-align: left;
+        margin-bottom: 2.5rem;
+      }
+      .price-features li {
+        padding: 0.6rem 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .price-features li::before {
+        content: '✓';
+        color: var(--green);
+        font-weight: 700;
+      }
+      .price-features li:last-child {
+        border: none;
+      }
+
+      /* ── About ── */
+      #about {
+        background: var(--bg2);
+        border-top: 1px solid var(--border);
+      }
+      .about-inner {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 3rem;
+        align-items: center;
+      }
+      .about-avatar {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        background: var(--bg3);
+        border: 2px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+      }
+      .about-inner h2 {
+        font-size: 1.75rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+      }
+      .about-inner p {
+        color: var(--muted);
+        margin-bottom: 1rem;
+        font-size: 0.95rem;
+      }
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1.5rem;
+      }
+      .tag {
+        background: var(--bg3);
+        border: 1px solid var(--border);
+        padding: 0.3rem 0.85rem;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+
+      /* ── CTA ── */
+      #cta {
+        background: radial-gradient(
+          ellipse 80% 100% at 50% 100%,
+          #1a2d5a 0%,
+          transparent 70%
+        );
+        text-align: center;
+      }
+      #cta h2 {
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 800;
+        margin-bottom: 1rem;
+      }
+      #cta p {
+        color: var(--muted);
+        font-size: 1.1rem;
+        margin-bottom: 2.5rem;
+      }
+
+      /* ── Footer ── */
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 2rem 1.5rem;
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+
+      /* ── Section headings ── */
+      .section-label {
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--blue);
+        margin-bottom: 1rem;
+      }
+      h2 {
+        font-size: clamp(1.75rem, 3vw, 2.5rem);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+      .section-sub {
+        color: var(--muted);
+        font-size: 1rem;
+        margin-top: 0.75rem;
+        max-width: 580px;
+      }
+
+      @media (max-width: 640px) {
+        .about-inner {
+          grid-template-columns: 1fr;
+        }
+        .hero-cta {
+          flex-direction: column;
+        }
+        nav {
+          padding: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Nav -->
+    <nav>
+      <div class="nav-logo">Social<span>Agent</span></div>
+      <a href="#cta" class="nav-cta">Jetzt anfragen</a>
+    </nav>
+
+    <!-- Hero -->
+    <section id="hero">
+      <div class="container center">
+        <div class="badge">
+          🤖 KI-gestütztes Social Media · <span>Made in Austria</span>
+        </div>
+        <h1>
+          Dein Business postet<br />automatisch auf
+          <em>LinkedIn & Instagram</em>
+        </h1>
+        <p class="hero-sub">
+          Texte in deiner Stimme. Bilder die passen. Kein generischer KI-Brei,
+          keine Agentur die dich nicht kennt — sondern ein System das für dich
+          arbeitet.
+        </p>
+        <div class="hero-cta">
+          <a href="#cta" class="btn-primary">Kostenloses Erstgespräch →</a>
+          <a href="#how" class="btn-ghost">Wie funktioniert's?</a>
+        </div>
+
+        <div class="hero-visual">
+          <div class="mock-bar">
+            <div class="mock-dot"></div>
+            <div class="mock-dot"></div>
+            <div class="mock-dot"></div>
+          </div>
+          <div class="mock-tabs">
+            <div class="mock-tab active">LinkedIn</div>
+            <div class="mock-tab">Instagram</div>
+            <div class="mock-tab">Facebook</div>
+          </div>
+          <div class="mock-text">
+            Websites die gut aussehen und Websites die verkaufen — das ist ein
+            Unterschied, den die meisten unterschätzen.<br /><br />
+            Ich habe in den letzten Jahren Dutzende Projekte begleitet. Das
+            Muster ist immer gleich: schönes Design ohne strategischen Unterbau
+            bringt keine Kunden. Was bringt Kunden? Klarheit. Struktur. Ein
+            Angebot das sofort verstanden wird.<br /><br />
+            Wie siehst du das — investierst du mehr in Optik oder in Strategie?
+          </div>
+          <div class="mock-footer">
+            <div class="mock-chars">🟢 312 / 3.000 Zeichen</div>
+            <div class="mock-btn">📤 Jetzt posten</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Problem -->
+    <section id="problem">
+      <div class="container center">
+        <div class="section-label">Das Problem</div>
+        <h2>Social Media kostet Zeit.<br />Zeit die du nicht hast.</h2>
+        <div class="problem-grid">
+          <div class="problem-card">
+            <div class="icon">😩</div>
+            <h3>Kein Content, keine Sichtbarkeit</h3>
+            <p>
+              Du weißt dass du regelmäßig posten solltest — aber zwischen
+              Kundenprojekten bleibt keine Zeit.
+            </p>
+          </div>
+          <div class="problem-card">
+            <div class="icon">🤖</div>
+            <h3>KI klingt nach KI</h3>
+            <p>
+              ChatGPT-Texte klingen generisch. Deine Kunden merken es sofort.
+              Vertrauen geht verloren.
+            </p>
+          </div>
+          <div class="problem-card">
+            <div class="icon">💸</div>
+            <h3>Agenturen sind zu teuer</h3>
+            <p>
+              €500+ im Monat für Social Media Management — und der Content passt
+              trotzdem nicht zu dir.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="how">
+      <div class="container center">
+        <div class="section-label">So funktioniert's</div>
+        <h2>Einmal einrichten.<br />Dauerhaft laufen lassen.</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <h3>Profil aufsetzen</h3>
+            <p>
+              Wir definieren gemeinsam deine Stimme, dein Business und deine
+              Zielgruppe. Einmalig, dauert 30 Minuten.
+            </p>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <h3>KI generiert Content</h3>
+            <p>
+              Der Agent erstellt 2× pro Woche Posts in deiner Stimme — für
+              LinkedIn, Instagram und Facebook.
+            </p>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <h3>Du gibst frei</h3>
+            <p>
+              Du siehst die Vorschau, kannst bearbeiten und mit einem Klick
+              genehmigen. Oder: alles läuft vollautomatisch.
+            </p>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <h3>Wird gepostet</h3>
+            <p>
+              Automatisch zum richtigen Zeitpunkt. Du machst nichts. Dein
+              Business bleibt sichtbar.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features">
+      <div class="container center">
+        <div class="section-label">Features</div>
+        <h2>Alles was du brauchst.<br />Nichts was du nicht brauchst.</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="icon">🎯</div>
+            <h3>Content in deiner Stimme</h3>
+            <p>
+              Kein generischer KI-Text. Das System kennt dein Business, deine
+              Positionierung und deinen Ton.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="icon">📅</div>
+            <h3>Vollautomatischer Zeitplan</h3>
+            <p>
+              2× pro Woche, zum optimalen Zeitpunkt. Du musst nicht daran
+              denken.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="icon">✅</div>
+            <h3>Genehmigung auf Wunsch</h3>
+            <p>
+              Willst du jeden Post vorher sehen? Kein Problem. Willst du einfach
+              laufen lassen? Auch möglich.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="icon">🖼️</div>
+            <h3>KI-generierte Bilder</h3>
+            <p>
+              Optional: DALL-E 3 erstellt passende Bilder zu jedem Post — kein
+              Stock-Photo-Einheitsbrei.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="icon">📊</div>
+            <h3>Verlauf & Übersicht</h3>
+            <p>
+              Alle Posts auf einen Blick — was wurde gepostet, was ist geplant,
+              was wurde genehmigt.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="icon">🔄</div>
+            <h3>Immer aktuell</h3>
+            <p>
+              Updates werden automatisch eingespielt. Du nutzt immer die neueste
+              Version — ohne etwas zu tun.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing">
+      <div class="container center">
+        <div class="section-label">Preis</div>
+        <h2>Einfach. Transparent.</h2>
+        <p class="section-sub" style="margin: 0.75rem auto 0">
+          Kein Jahresvertrag. Kein Setup-Fee. Monatlich kündbar.
+        </p>
+        <div class="pricing-card">
+          <div style="font-weight: 700; font-size: 1.1rem">
+            Social Media Autopilot
+          </div>
+          <div class="price">€79 <span>/ Monat</span></div>
+          <div class="price-sub">inkl. MwSt. · monatlich kündbar</div>
+          <ul class="price-features">
+            <li>LinkedIn + Instagram (+ Facebook optional)</li>
+            <li>2 Posts pro Woche, vollautomatisch</li>
+            <li>Content in deiner persönlichen Stimme</li>
+            <li>KI-Bilder inklusive</li>
+            <li>Genehmigungs-Workflow auf Wunsch</li>
+            <li>Einrichtung & Onboarding inklusive</li>
+            <li>Laufende Updates automatisch</li>
+            <li>Persönlicher Support via E-Mail</li>
+          </ul>
+          <a
+            href="#cta"
+            class="btn-primary"
+            style="width: 100%; display: block; text-align: center"
+            >Jetzt starten →</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+      <div class="container">
+        <div class="about-inner">
+          <div class="about-avatar">👤</div>
+          <div>
+            <div class="section-label">Wer steckt dahinter</div>
+            <h2>Wolfgang Heis</h2>
+            <p>
+              Einer der wenigen unabhängigen Webdesigner in Österreich, die
+              Design, Conversion und moderne Umsetzung wirklich verbinden.
+            </p>
+            <p>
+              Kein Agentur-Overhead, kein 08/15-WordPress-Gewurschtel — sondern
+              klarer Blick, saubere Umsetzung und strategische Haltung.
+            </p>
+            <div class="tags">
+              <span class="tag">Marketing-Background</span>
+              <span class="tag">UX/UI-Expertise</span>
+              <span class="tag">Technisches Know-how</span>
+              <span class="tag">Tiroler Direktheit</span>
+              <span class="tag">Wiener Marktverständnis</span>
+              <span class="tag">Made in Austria</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="cta">
+      <div class="container center">
+        <div class="section-label">Bereit?</div>
+        <h2>Dein Business.<br />Sichtbar. Automatisch.</h2>
+        <p>
+          Kostenloses 30-Minuten Erstgespräch — kein Druck, kein Sales-Pitch.
+          Wir schauen gemeinsam ob es passt.
+        </p>
+        <a
+          href="mailto:office@wulius.at"
+          class="btn-primary"
+          style="font-size: 1.1rem; padding: 1rem 2.5rem"
+        >
+          Jetzt Termin anfragen →
+        </a>
+        <p style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--muted)">
+          Oder direkt:
+          <a href="mailto:office@wulius.at" style="color: var(--blue)"
+            >office@wulius.at</a
+          >
+        </p>
+      </div>
+    </section>
+
+    <footer>
+      <p>© 2026 Wolfgang Heis · Webdesign & Digital Services · Österreich</p>
+    </footer>
+  </body>
+</html>
