@@ -85,9 +85,16 @@ def apply_to_env():
         "instagram_access_token": "INSTAGRAM_ACCESS_TOKEN",
         "linkedin_access_token": "LINKEDIN_ACCESS_TOKEN",
         "linkedin_author_urn": "LINKEDIN_AUTHOR_URN",
+        "business_name": "BUSINESS_NAME",
+        "business_description": "BUSINESS_DESCRIPTION",
+        "business_target": "BUSINESS_TARGET",
+        "business_tone_hints": "BUSINESS_TONE_HINTS",
+        "business_language": "BUSINESS_LANGUAGE",
     }
     for k, env in pairs.items():
-        v = cfg.get(k, "")
-        if v:
-            os.environ[env] = str(v)
-    os.environ["GENERATE_IMAGE"] = "true" if cfg.get("generate_image") else "false"
+        # env var from GitHub Actions takes priority
+        if not os.environ.get(env):
+            v = cfg.get(k, "")
+            if v:
+                os.environ[env] = str(v)
+    os.environ["GENERATE_IMAGE"] = os.environ.get("GENERATE_IMAGE", "true" if cfg.get("generate_image") else "false")

@@ -1,3 +1,4 @@
+import os
 import openai
 import random
 from src import config as cfg
@@ -18,11 +19,11 @@ GENERIC_TOPICS = [
 
 def _build_persona() -> str:
     c = cfg.load()
-    name = c.get("business_name", "")
-    desc = c.get("business_description", "")
-    target = c.get("business_target", "")
-    tone = c.get("business_tone_hints", "")
-    lang = c.get("business_language", "Deutsch")
+    name = os.environ.get("BUSINESS_NAME") or c.get("business_name", "")
+    desc = os.environ.get("BUSINESS_DESCRIPTION") or c.get("business_description", "")
+    target = os.environ.get("BUSINESS_TARGET") or c.get("business_target", "")
+    tone = os.environ.get("BUSINESS_TONE_HINTS") or c.get("business_tone_hints", "")
+    lang = os.environ.get("BUSINESS_LANGUAGE") or c.get("business_language", "Deutsch")
 
     persona = f"Du bist {name}.\n" if name else "Du bist ein Experte in deinem Bereich.\n"
     if desc:

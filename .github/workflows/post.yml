@@ -1,0 +1,41 @@
+name: Social Media Post
+
+on:
+  schedule:
+    - cron: "0 8 * * 2"  # Dienstag 08:00 UTC = 10:00 Wien
+    - cron: "0 8 * * 5"  # Freitag  08:00 UTC = 10:00 Wien
+  workflow_dispatch:      # auch manuell auslösbar
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run agent
+        env:
+          OPENAI_API_KEY:            ${{ secrets.OPENAI_API_KEY }}
+          IMGBB_API_KEY:             ${{ secrets.IMGBB_API_KEY }}
+          LINKEDIN_ACCESS_TOKEN:     ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+          LINKEDIN_AUTHOR_URN:       ${{ secrets.LINKEDIN_AUTHOR_URN }}
+          INSTAGRAM_USER_ID:         ${{ secrets.INSTAGRAM_USER_ID }}
+          INSTAGRAM_ACCESS_TOKEN:    ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+          BUSINESS_NAME:             ${{ secrets.BUSINESS_NAME }}
+          BUSINESS_DESCRIPTION:      ${{ secrets.BUSINESS_DESCRIPTION }}
+          BUSINESS_TARGET:           ${{ secrets.BUSINESS_TARGET }}
+          BUSINESS_TONE_HINTS:       ${{ secrets.BUSINESS_TONE_HINTS }}
+          BUSINESS_LANGUAGE:         ${{ secrets.BUSINESS_LANGUAGE }}
+          POST_LINKEDIN:             ${{ secrets.POST_LINKEDIN }}
+          POST_INSTAGRAM:            ${{ secrets.POST_INSTAGRAM }}
+          GENERATE_IMAGE:            ${{ secrets.GENERATE_IMAGE }}
+          POST_LENGTH:               ${{ secrets.POST_LENGTH }}
+          POST_TONE:                 ${{ secrets.POST_TONE }}
+          HASHTAG_COUNT:             ${{ secrets.HASHTAG_COUNT }}
+        run: python main.py
