@@ -1,3 +1,4 @@
+from typing import Optional
 import requests
 import os
 import time
@@ -7,8 +8,8 @@ BASE_URL = "https://api.linkedin.com/v2"
 
 def post_to_linkedin(
     text: str,
-    image_path: str | None = None,
-    video_path: str | None = None,
+    image_path: Optional[str] = None,
+    video_path: Optional[str] = None,
 ) -> str:
     token = os.environ["LINKEDIN_ACCESS_TOKEN"]
     author = os.environ["LINKEDIN_AUTHOR_URN"]

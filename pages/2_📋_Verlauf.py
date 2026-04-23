@@ -1,7 +1,6 @@
 import streamlit as st
 from src import post_store
 
-st.set_page_config(page_title="Verlauf", page_icon="📋", layout="wide")
 st.title("📋 Verlauf")
 
 STATUS_ICON = {
@@ -10,12 +9,6 @@ STATUS_ICON = {
     "posted":   "📤 Gepostet",
     "rejected": "❌ Abgelehnt",
 }
-STATUS_COLOR = {
-    "pending":  "orange",
-    "approved": "blue",
-    "posted":   "green",
-    "rejected": "red",
-}
 
 all_posts = post_store.get_all()
 
@@ -23,15 +16,20 @@ if not all_posts:
     st.info("Noch keine Posts erstellt.")
     st.stop()
 
-# Filter
-col_f1, col_f2 = st.columns([2, 4])
-with col_f1:
+# Filter + Alle löschen in einer Zeile
+col_filter, col_del = st.columns([5, 1])
+with col_filter:
     filter_status = st.multiselect(
-        "Status filtern",
+        "Status",
         options=list(STATUS_ICON.keys()),
         default=list(STATUS_ICON.keys()),
         format_func=lambda x: STATUS_ICON[x],
+        label_visibility="collapsed",
     )
+with col_del:
+    if st.button("🗑️ Alle löschen", use_container_width=True):
+        post_store.delete_all()
+        st.rerun()
 
 filtered = [p for p in all_posts if p["status"] in filter_status]
 st.caption(f"{len(filtered)} von {len(all_posts)} Posts")
@@ -58,5 +56,6 @@ for post in filtered:
         if post.get("posted_at"):
             st.caption(f"Gepostet: {post['posted_at'][:16].replace('T', ' ')}")
 
-if st.button("🔄 Aktualisieren"):
-    st.rerun()
+        if st.button("🗑️ Löschen", key=f"del_{post['id']}"):
+            post_store.delete(post["id"])
+            st.rerun()

@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wolfgang Heis — Digitales Fundament für dein Business</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,800&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:     #0d0d14;
+    --bg2:    #13131f;
+    --border: rgba(255,255,255,0.07);
+    --text:   #e8e8f0;
+    --muted:  #888899;
+    --accent: #6c63ff;
+    --a2:     #00c9a7;
+    --a3:     #ff6b6b;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+  .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  /* ── SCROLL ANIMATION BASE ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s cubic-bezier(.22,1,.36,1), transform 0.7s cubic-bezier(.22,1,.36,1);
+  }
+  .reveal.from-left  { transform: translateX(-40px); }
+  .reveal.from-right { transform: translateX(40px); }
+  .reveal.scale-in   { transform: scale(0.92); }
+  .reveal.visible {
+    opacity: 1;
+    transform: translate(0) scale(1);
+  }
+  /* Stagger delays */
+  .stagger-1 { transition-delay: 0.05s; }
+  .stagger-2 { transition-delay: 0.15s; }
+  .stagger-3 { transition-delay: 0.25s; }
+  .stagger-4 { transition-delay: 0.35s; }
+  .stagger-5 { transition-delay: 0.45s; }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(13,13,20,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 0;
+    animation: navIn 0.6s ease both;
+  }
+  @keyframes navIn { from { opacity:0; transform:translateY(-100%); } to { opacity:1; transform:none; } }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 32px; font-size: 0.9rem; color: var(--muted); }
+  .nav-links a { transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    background: var(--accent); color: #fff;
+    padding: 8px 20px; border-radius: 8px;
+    font-size: 0.875rem; font-weight: 600;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .nav-cta:hover { opacity: 0.85; transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 130px 0 90px;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  /* Animated background glow */
+  .hero::before {
+    content: "";
+    position: absolute;
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(108,99,255,0.18) 0%, transparent 70%);
+    top: -100px; left: 50%; transform: translateX(-50%);
+    animation: glowPulse 4s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes glowPulse {
+    0%,100% { opacity:0.6; transform: translateX(-50%) scale(1); }
+    50%      { opacity:1;   transform: translateX(-50%) scale(1.15); }
+  }
+
+  .hero-badge {
+    display: inline-block;
+    border: 1px solid var(--border);
+    background: rgba(108,99,255,0.1);
+    color: var(--accent);
+    font-size: 0.8rem; font-weight: 600;
+    padding: 6px 16px; border-radius: 20px;
+    margin-bottom: 28px;
+    animation: heroEl 0.8s 0.1s cubic-bezier(.22,1,.36,1) both;
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 5.5vw, 4rem);
+    font-weight: 800; letter-spacing: -0.03em; line-height: 1.1;
+    margin-bottom: 24px;
+    animation: heroEl 0.8s 0.25s cubic-bezier(.22,1,.36,1) both;
+  }
+  .hero h1 em {
+    font-style: italic;
+    background: linear-gradient(135deg, var(--accent), var(--a2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .hero-sub {
+    font-size: 1.1rem; color: var(--muted);
+    max-width: 580px; margin: 0 auto 40px; line-height: 1.75;
+    animation: heroEl 0.8s 0.4s cubic-bezier(.22,1,.36,1) both;
+  }
+  .hero-btns {
+    display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+    animation: heroEl 0.8s 0.55s cubic-bezier(.22,1,.36,1) both;
+  }
+  @keyframes heroEl {
+    from { opacity:0; transform: translateY(28px); }
+    to   { opacity:1; transform: none; }
+  }
+
+  .btn-primary {
+    background: var(--accent); color: #fff;
+    padding: 14px 28px; border-radius: 10px;
+    font-weight: 600; font-size: 0.95rem;
+    transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(108,99,255,0.35); }
+  .btn-ghost {
+    border: 1px solid var(--border); color: var(--muted);
+    padding: 14px 28px; border-radius: 10px;
+    font-weight: 500; font-size: 0.95rem;
+    transition: border-color 0.2s, color 0.2s, transform 0.2s;
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--text); transform: translateY(-2px); }
+
+  /* ── MARQUEE ── */
+  .marquee-wrap {
+    overflow: hidden; padding: 14px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg2);
+  }
+  .marquee-track {
+    display: inline-flex;
+    animation: marquee 22s linear infinite;
+    white-space: nowrap;
+  }
+  .marquee-track:hover { animation-play-state: paused; }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .marquee-item {
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted);
+    padding: 0 28px;
+  }
+  .marquee-item span { color: var(--accent); margin-left: 28px; }
+
+  /* ── SECTION COMMONS ── */
+  .section-label {
+    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
+  }
+  .section-title {
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 800; letter-spacing: -0.025em; margin-bottom: 16px; line-height: 1.2;
+  }
+  .section-sub { color: var(--muted); max-width: 540px; margin: 0 auto 60px; }
+
+  /* ── SYSTEM ── */
+  .system { padding: 100px 0; text-align: center; }
+
+  .flow { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; margin-bottom: 48px; }
+  .flow-step {
+    text-align: center; padding: 32px 36px;
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 16px;
+    min-width: 200px;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    cursor: default;
+  }
+  .flow-step:hover {
+    border-color: rgba(108,99,255,0.5);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(108,99,255,0.12);
+  }
+  .flow-icon { font-size: 2rem; margin-bottom: 12px; }
+  .flow-step h3 { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
+  .flow-step p { font-size: 0.8rem; color: var(--muted); }
+  .flow-arrow {
+    font-size: 1.4rem; color: var(--muted); padding: 0 16px;
+    animation: arrowPulse 1.5s ease-in-out infinite;
+  }
+  @keyframes arrowPulse {
+    0%,100% { opacity:0.4; transform: translateX(0); }
+    50%      { opacity:1;   transform: translateX(4px); }
+  }
+
+  /* ── SERVICES ── */
+  .services { padding: 100px 0; }
+  .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+  .service-card {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 20px;
+    padding: 36px 32px; position: relative; overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  }
+  .service-card::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(108,99,255,0.07) 0%, transparent 60%);
+    opacity: 0; transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .service-card:hover { border-color: rgba(108,99,255,0.4); transform: translateY(-6px); box-shadow: 0 20px 48px rgba(0,0,0,0.3); }
+  .service-card:hover::after { opacity: 1; }
+  .service-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin-bottom: 20px;
+    transition: transform 0.3s;
+  }
+  .service-card:hover .service-icon { transform: scale(1.1) rotate(-5deg); }
+  .service-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; }
+  .service-card > p { color: var(--muted); font-size: 0.9rem; margin-bottom: 20px; }
+  .service-features { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .service-features li { font-size: 0.85rem; color: var(--muted); display: flex; gap: 8px; }
+  .service-features li::before { content: "✓"; color: var(--a2); flex-shrink: 0; font-weight: 700; }
+  .service-tag {
+    display: inline-block; margin-top: 20px;
+    font-size: 0.75rem; font-weight: 600; padding: 4px 10px; border-radius: 6px;
+  }
+
+  /* ── WHY ── */
+  .why { padding: 100px 0; }
+  .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; margin-top: 48px; }
+  .why-item {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 16px;
+    padding: 28px 24px;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .why-item:hover { border-color: rgba(108,99,255,0.3); transform: translateY(-3px); }
+  .why-item .num {
+    font-size: 2.2rem; font-weight: 800; color: var(--accent); letter-spacing: -0.03em; margin-bottom: 8px;
+  }
+  .why-item h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; }
+  .why-item p { font-size: 0.85rem; color: var(--muted); }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials { padding: 100px 0; border-top: 1px solid var(--border); }
+  .t-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 48px; }
+  .t-card {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 20px; padding: 32px;
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+  }
+  .t-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.25); border-color: rgba(108,99,255,0.25); }
+  .t-quote { font-size: 1.8rem; color: var(--accent); margin-bottom: 14px; line-height: 1; font-family: Georgia, serif; }
+  .t-text { font-size: 0.95rem; color: var(--text); line-height: 1.75; margin-bottom: 24px; }
+  .t-author { display: flex; align-items: center; gap: 12px; }
+  .t-author img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); transition: border-color 0.3s; }
+  .t-card:hover .t-author img { border-color: var(--accent); }
+  .t-name { font-weight: 600; font-size: 0.9rem; }
+  .t-role { color: var(--muted); font-size: 0.78rem; }
+
+  /* ── ABOUT ── */
+  .about { padding: 100px 0; border-top: 1px solid var(--border); }
+  .about-inner { display: grid; grid-template-columns: auto 1fr; gap: 56px; align-items: center; }
+  .about-photo-wrap { position: relative; flex-shrink: 0; }
+  .about-photo {
+    width: 160px; height: 160px; border-radius: 24px;
+    object-fit: cover; object-position: center top;
+    border: 1px solid var(--border);
+    display: block;
+    transition: transform 0.4s, box-shadow 0.4s;
+  }
+  .about-photo:hover { transform: scale(1.03) rotate(-1deg); box-shadow: 0 20px 48px rgba(108,99,255,0.2); }
+  /* Decorative ring */
+  .about-photo-wrap::before {
+    content: "";
+    position: absolute; inset: -8px;
+    border-radius: 30px;
+    border: 1px solid rgba(108,99,255,0.2);
+    animation: ringPulse 3s ease-in-out infinite;
+  }
+  @keyframes ringPulse {
+    0%,100% { opacity:0.4; transform: scale(1); }
+    50%      { opacity:1;   transform: scale(1.04); }
+  }
+  .about h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 14px; letter-spacing: -0.02em; }
+  .about p { color: var(--muted); margin-bottom: 12px; font-size: 0.95rem; line-height: 1.75; }
+  .about-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+  .about-tag {
+    border: 1px solid var(--border); color: var(--muted);
+    font-size: 0.78rem; padding: 4px 12px; border-radius: 20px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .about-tag:hover { border-color: var(--accent); color: var(--text); }
+
+  /* ── CTA ── */
+  .cta { padding: 100px 0; text-align: center; }
+  .cta-card {
+    background: linear-gradient(135deg, rgba(108,99,255,0.15), rgba(0,201,167,0.08));
+    border: 1px solid rgba(108,99,255,0.3);
+    border-radius: 24px; padding: 72px 48px;
+    position: relative; overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .cta-card:hover { border-color: rgba(108,99,255,0.6); }
+  /* Animated corner glow */
+  .cta-card::before {
+    content: "";
+    position: absolute;
+    width: 300px; height: 300px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(108,99,255,0.2) 0%, transparent 70%);
+    bottom: -100px; right: -100px;
+    animation: glowPulse 3s ease-in-out infinite;
+  }
+  .cta h2 { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 800; margin-bottom: 16px; letter-spacing: -0.02em; position: relative; z-index: 1; }
+  .cta p { color: var(--muted); margin-bottom: 36px; font-size: 1rem; position: relative; z-index: 1; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border); padding: 32px 0;
+    display: flex; justify-content: center;
+    font-size: 0.85rem; color: var(--muted);
+  }
+
+  /* ── CURSOR GLOW (subtle) ── */
+  .cursor-glow {
+    position: fixed; pointer-events: none; z-index: 9999;
+    width: 300px; height: 300px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(108,99,255,0.06) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: left 0.1s, top 0.1s;
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="container nav-inner">
+    <div class="nav-logo">Wolfgang<span>Heis</span></div>
+    <div class="nav-links">
+      <a href="#system">System</a>
+      <a href="#services">Leistungen</a>
+      <a href="#about">Über mich</a>
+    </div>
+    <a href="#cta" class="nav-cta">Gespräch vereinbaren →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">Webdesign · Buchungen · Social Media — Wien</div>
+    <h1>Websites die verkaufen.<br><em>Systeme die arbeiten.</em></h1>
+    <p class="hero-sub">
+      Seit 2009 im digitalen Marketing, seit 2019 selbstständig.
+      Ich baue nicht nur Websites — ich baue das digitale Fundament
+      damit dein Business sichtbar ist, Kunden buchen und deine
+      Social-Media-Präsenz automatisch wächst.
+    </p>
+    <div class="hero-btns">
+      <a href="#cta" class="btn-primary">Kostenloses Erstgespräch →</a>
+      <a href="#services" class="btn-ghost">Leistungen ansehen</a>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Webdesign<span>✦</span></span>
+    <span class="marquee-item">UX / UI Design<span>✦</span></span>
+    <span class="marquee-item">Online-Buchungen<span>✦</span></span>
+    <span class="marquee-item">Social Media KI<span>✦</span></span>
+    <span class="marquee-item">SEO<span>✦</span></span>
+    <span class="marquee-item">Wien<span>✦</span></span>
+    <span class="marquee-item">Seit 2009<span>✦</span></span>
+    <span class="marquee-item">GPT-4o<span>✦</span></span>
+    <span class="marquee-item">Webdesign<span>✦</span></span>
+    <span class="marquee-item">UX / UI Design<span>✦</span></span>
+    <span class="marquee-item">Online-Buchungen<span>✦</span></span>
+    <span class="marquee-item">Social Media KI<span>✦</span></span>
+    <span class="marquee-item">SEO<span>✦</span></span>
+    <span class="marquee-item">Wien<span>✦</span></span>
+    <span class="marquee-item">Seit 2009<span>✦</span></span>
+    <span class="marquee-item">GPT-4o<span>✦</span></span>
+  </div>
+</div>
+
+<!-- SYSTEM -->
+<section class="system" id="system">
+  <div class="container">
+    <div class="section-label reveal">Das System</div>
+    <h2 class="section-title reveal stagger-1">Drei Bausteine. Ein Ergebnis.</h2>
+    <p class="section-sub reveal stagger-2">
+      Sichtbarkeit allein reicht nicht. Erst wenn alle drei Teile zusammenspielen,
+      wächst dein Business wirklich.
+    </p>
+    <div class="flow">
+      <div class="flow-step reveal from-left stagger-1">
+        <div class="flow-icon">📱</div>
+        <h3>Social Media</h3>
+        <p>Aufmerksamkeit erzeugen</p>
+      </div>
+      <div class="flow-arrow reveal stagger-2">→</div>
+      <div class="flow-step reveal stagger-3">
+        <div class="flow-icon">🌐</div>
+        <h3>Website</h3>
+        <p>Vertrauen aufbauen</p>
+      </div>
+      <div class="flow-arrow reveal stagger-4">→</div>
+      <div class="flow-step reveal from-right stagger-5">
+        <div class="flow-icon">📅</div>
+        <h3>Buchungstool</h3>
+        <p>Kunden konvertieren</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="section-label reveal" style="text-align:center">Leistungen</div>
+    <h2 class="section-title reveal stagger-1" style="text-align:center">Was ich für dich baue</h2>
+    <p class="section-sub reveal stagger-2" style="text-align:center">
+      Jede Leistung funktioniert für sich — aber zusammen sind sie unschlagbar.
+    </p>
+    <div class="services-grid">
+
+      <div class="service-card reveal stagger-1">
+        <div class="service-icon" style="background:rgba(108,99,255,0.15);">🌐</div>
+        <h3>Webdesign</h3>
+        <p>Keine Templates. Eine Website die zu dir passt — strategisch aufgebaut, conversion-fokussiert, Google-optimiert.</p>
+        <ul class="service-features">
+          <li>Individuelles Design, kein Template</li>
+          <li>Mobile-first & blitzschnell</li>
+          <li>SEO & UX/UI inklusive</li>
+          <li>Zweisprachig auf Wunsch</li>
+          <li>Umsetzung in 2–4 Wochen</li>
+        </ul>
+        <div style="margin-top:20px; display:flex; flex-direction:column; gap:6px;">
+          <span class="service-tag" style="background:rgba(108,99,255,0.1);color:var(--accent);display:block;">Start · bis 5 Seiten — ab €2.200</span>
+          <span class="service-tag" style="background:rgba(108,99,255,0.07);color:var(--accent);display:block;">Pro · bis 10 Seiten — €3.000–4.000</span>
+          <span class="service-tag" style="background:rgba(108,99,255,0.04);color:var(--accent);display:block;">Premium · 11+ Seiten — ab €5.000</span>
+        </div>
+      </div>
+
+      <div class="service-card reveal stagger-2">
+        <div class="service-icon" style="background:rgba(0,201,167,0.12);">📅</div>
+        <h3>Online-Buchungssystem</h3>
+        <p>Deine Kunden buchen direkt auf deiner Website — ohne E-Mail-Ping-Pong, ohne manuelle Terminverwaltung.</p>
+        <ul class="service-features">
+          <li>Buchungswidget direkt auf deiner Website</li>
+          <li>Automatische Bestätigungs-E-Mails</li>
+          <li>Kalender-Sync (Google, iCal)</li>
+          <li>Zahlungsabwicklung via Stripe</li>
+          <li>Verwaltung im einfachen Admin-Bereich</li>
+        </ul>
+        <span class="service-tag" style="background:rgba(0,201,167,0.1);color:var(--a2);">Ab €29 / Monat</span>
+      </div>
+
+      <div class="service-card reveal stagger-3">
+        <div class="service-icon" style="background:rgba(255,107,107,0.12);">🤖</div>
+        <h3>Social Media Autopilot</h3>
+        <p>KI schreibt Posts in deiner Stimme — automatisch, 2× pro Woche, auf LinkedIn und Instagram.</p>
+        <ul class="service-features">
+          <li>GPT-4o generiert Content in deinem Stil</li>
+          <li>Automatisches Posten nach Zeitplan</li>
+          <li>Eigene Bilder & Videos hochladen</li>
+          <li>Genehmigungs-Workflow auf Wunsch</li>
+          <li>Wählbare Posting-Tage & Uhrzeit</li>
+        </ul>
+        <span class="service-tag" style="background:rgba(255,107,107,0.1);color:var(--a3);">€79 / Monat · Early Adopter</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="why">
+  <div class="container">
+    <div class="section-label reveal">Warum ich</div>
+    <h2 class="section-title reveal stagger-1">Kein Agentur-Overhead.<br>Volle Aufmerksamkeit.</h2>
+    <div class="why-grid">
+      <div class="why-item reveal stagger-1">
+        <div class="num" data-count="15" data-suffix="+">0</div>
+        <h4>Jahre Erfahrung</h4>
+        <p>Seit 2009 im digitalen Marketing. Ich kenne die Fehler — und wie man sie vermeidet.</p>
+      </div>
+      <div class="why-item reveal stagger-2">
+        <div class="num">2–4</div>
+        <h4>Wochen bis live</h4>
+        <p>Keine monatelangen Projekte. Klarer Prozess, schnelle Umsetzung.</p>
+      </div>
+      <div class="why-item reveal stagger-3">
+        <div class="num" data-count="1" data-suffix="">0</div>
+        <h4>Ansprechpartner</h4>
+        <p>Du redest mit mir — nicht mit wechselnden Account Managern oder Junior-Designern.</p>
+      </div>
+      <div class="why-item reveal stagger-4">
+        <div class="num">3-in-1</div>
+        <h4>Komplettes System</h4>
+        <p>Website, Buchungen und Social Media aus einer Hand — aufeinander abgestimmt.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="container">
+    <div class="section-label reveal" style="text-align:center">Kundenstimmen</div>
+    <h2 class="section-title reveal stagger-1" style="text-align:center">Was Kunden sagen</h2>
+    <div class="t-grid">
+      <div class="t-card reveal from-left stagger-2">
+        <div class="t-quote">"</div>
+        <p class="t-text">Herr Heis hat unsere Webseite strukturiert und dynamisch aufgebaut. Unsere Vision der Seite wurde großartig umgesetzt und hat die Erwartungen übertroffen.</p>
+        <div class="t-author">
+          <img src="https://framerusercontent.com/images/Pgee7s44yegHRFmNl74wQ3QqYP0.webp?width=80&height=79" alt="Sebastian Mercz">
+          <div>
+            <div class="t-name">Sebastian Mercz</div>
+            <div class="t-role">Founder, MSQ Vienna</div>
+          </div>
+        </div>
+      </div>
+      <div class="t-card reveal from-right stagger-3">
+        <div class="t-quote">"</div>
+        <p class="t-text">Als langjähriger Kunde von Herrn Heis schätze ich, neben seiner Expertise, seit jeher dessen Menschlichkeit und intuitives Gespür bei anstehenden Projekten.</p>
+        <div class="t-author">
+          <img src="https://framerusercontent.com/images/U5fk6W5wwykeovG7w5MRukT4Urw.jpg?width=322&height=322" alt="Michael Bratusa">
+          <div>
+            <div class="t-name">Michael Bratusa</div>
+            <div class="t-role">Founder, Green Rubin</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-inner">
+      <div class="about-photo-wrap reveal from-left">
+        <img src="https://framerusercontent.com/images/xJZVfKxog4WuFFPwnHz6bgnJgo.jpg?scale-down-to=512" class="about-photo" alt="Wolfgang Heis">
+      </div>
+      <div class="reveal from-right stagger-1">
+        <h2>Wolfgang Heis, MSc</h2>
+        <p>Ich arbeite seit 2009 im digitalen Marketing und bin seit 2019 selbstständig als Webdesigner in Wien. Was ich in dieser Zeit gelernt habe: Eine gute Website allein reicht nicht — es braucht ein System dahinter.</p>
+        <p>Deshalb habe ich neben Webdesign eigene Tools entwickelt: ein Buchungssystem das direkt auf der Website läuft, und einen KI-Agenten der automatisch Social-Media-Posts in deiner Stimme schreibt und veröffentlicht. Alles aus einer Hand, aufeinander abgestimmt.</p>
+        <p>Meine Kunden sind Selbstständige und kleine Unternehmen in Österreich — die professionell auftreten wollen, ohne Agentur-Budget.</p>
+        <div class="about-tags">
+          <span class="about-tag">Wien, Österreich</span>
+          <span class="about-tag">Seit 2009 digital</span>
+          <span class="about-tag">MSc</span>
+          <span class="about-tag">Webdesign & UX/UI</span>
+          <span class="about-tag">KI-Automatisierung</span>
+          <span class="about-tag">KMU & Selbstständige</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="cta">
+  <div class="container">
+    <div class="cta-card reveal scale-in">
+      <h2>Bereit für dein digitales Fundament?</h2>
+      <p>Kostenloses 30-Minuten-Gespräch — kein Verkaufsgespräch, sondern ein ehrlicher Blick auf was bei dir Sinn macht.</p>
+      <a href="mailto:werbesan@gmail.com" class="btn-primary" style="font-size:1rem; padding:16px 36px;">
+        Gespräch anfragen →
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>© 2025 Wolfgang Heis · Wien · werbesan@gmail.com</div>
+</footer>
+
+<script>
+  // ── Scroll reveal ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        // Trigger counter if applicable
+        const num = entry.target.querySelector('[data-count]');
+        if (num) animateCounter(num);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ── Counter animation ──
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.count);
+    const suffix = el.dataset.suffix || '';
+    const duration = 1200;
+    const start = performance.now();
+    const update = (now) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(eased * target) + suffix;
+      if (progress < 1) requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
+  }
+
+  // ── Cursor glow ──
+  const glow = document.getElementById('cursorGlow');
+  document.addEventListener('mousemove', e => {
+    glow.style.left = e.clientX + 'px';
+    glow.style.top  = e.clientY + 'px';
+  });
+
+  // ── Nav color shift on scroll ──
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) {
+      nav.style.borderBottomColor = 'rgba(108,99,255,0.15)';
+    } else {
+      nav.style.borderBottomColor = 'rgba(255,255,255,0.07)';
+    }
+  });
+</script>
+</body>
+</html>

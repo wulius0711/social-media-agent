@@ -1,3 +1,4 @@
+from typing import Optional
 import requests
 import os
 import time
@@ -8,8 +9,8 @@ BASE_URL = "https://graph.instagram.com/v21.0"
 
 def post_to_instagram(
     caption: str,
-    image_path: str | None = None,
-    video_path: str | None = None,
+    image_path: Optional[str] = None,
+    video_path: Optional[str] = None,
 ) -> str:
     user_id = os.environ["INSTAGRAM_USER_ID"]
     token = os.environ["INSTAGRAM_ACCESS_TOKEN"]

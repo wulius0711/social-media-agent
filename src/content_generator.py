@@ -1,3 +1,4 @@
+from typing import Optional
 import os
 import openai
 import random
@@ -37,41 +38,50 @@ def _build_persona() -> str:
 
 
 LENGTH_WORDS = {
+    "Mini":   {"instagram": "20-40",   "linkedin": "50-100"},
     "Kurz":   {"instagram": "80-120",  "linkedin": "150-200"},
     "Mittel": {"instagram": "150-220", "linkedin": "250-350"},
     "Lang":   {"instagram": "250-320", "linkedin": "400-550"},
 }
 
 TONE_INSTRUCTIONS = {
-    "Direkt":       "Meinungsstark, provokant, keine Weichspüler-Formulierungen.",
+    "Direkt":       "Meinungsstark, auf den Punkt, keine Weichspüler-Formulierungen.",
     "Sachlich":     "Informativ, klar strukturiert, faktenbasiert.",
     "Storytelling": "Erzählerisch, persönliche Anekdote oder Erlebnis als Aufhänger.",
+    "Humorvoll":    "Leicht, witzig, Augenzwinkern — aber trotzdem mit Substanz. Keine Flachwitze.",
+    "Provokativ":   "Steile These aufstellen, bewusst polarisieren, Diskussion anregen. Mutig formulieren.",
 }
 
 
 def generate_content(
-    custom_topic: str | None = None,
+    custom_topic: Optional[str] = None,
     length: str = "Mittel",
     tone: str = "Direkt",
     hashtag_count: int = 10,
+    custom_chars: Optional[int] = None,
 ) -> tuple[dict, dict]:
     if custom_topic:
         topic_title = custom_topic
         topic_hook = custom_topic
     else:
         topic_hook = random.choice(GENERIC_TOPICS)
-        topic_title = topic_hook[:40]
+        topic_title = topic_hook
 
     persona = _build_persona()
-    instagram = _generate_instagram_post(topic_title, topic_hook, length, tone, hashtag_count, persona)
-    linkedin = _generate_linkedin_post(topic_title, topic_hook, length, tone, persona)
+    instagram = _generate_instagram_post(topic_title, topic_hook, length, tone, hashtag_count, persona, custom_chars)
+    linkedin = _generate_linkedin_post(topic_title, topic_hook, length, tone, persona, custom_chars)
     return instagram, linkedin
 
 
+def _chars_to_words(chars: int) -> str:
+    return f"ca. {max(40, chars // 5)}"
+
+
 def _generate_instagram_post(
-    topic_title: str, topic_hook: str, length: str, tone: str, hashtag_count: int, persona: str
+    topic_title: str, topic_hook: str, length: str, tone: str, hashtag_count: int, persona: str,
+    custom_chars: Optional[int] = None,
 ) -> dict:
-    words = LENGTH_WORDS[length]["instagram"]
+    words = _chars_to_words(custom_chars) if custom_chars else LENGTH_WORDS[length]["instagram"]
     tone_hint = TONE_INSTRUCTIONS[tone]
     response = client.chat.completions.create(
         model="gpt-4o",
@@ -99,8 +109,11 @@ Gib NUR den fertigen Post aus, keine Erklärungen."""
     return {"caption": caption, "topic": topic_title, "hook": topic_hook}
 
 
-def _generate_linkedin_post(topic_title: str, topic_hook: str, length: str, tone: str, persona: str) -> dict:
-    words = LENGTH_WORDS[length]["linkedin"]
+def _generate_linkedin_post(
+    topic_title: str, topic_hook: str, length: str, tone: str, persona: str,
+    custom_chars: Optional[int] = None,
+) -> dict:
+    words = _chars_to_words(custom_chars) if custom_chars else LENGTH_WORDS[length]["linkedin"]
     tone_hint = TONE_INSTRUCTIONS[tone]
     response = client.chat.completions.create(
         model="gpt-4o",

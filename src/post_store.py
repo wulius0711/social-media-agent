@@ -88,3 +88,12 @@ def update_content(post_id: str, content: dict):
         if p["id"] == post_id:
             p["content"] = content
     _save(posts)
+
+
+def delete(post_id: str):
+    posts = _load()
+    _save([p for p in posts if p["id"] != post_id])
+
+
+def delete_all():
+    _save([])

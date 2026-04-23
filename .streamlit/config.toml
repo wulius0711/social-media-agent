@@ -5,5 +5,9 @@ secondaryBackgroundColor = "#1a1f2e"
 textColor = "#ffffff"
 font = "sans serif"
 
+[browser]
+gatherUsageStats = false
+serverAddress = "localhost"
+
 [server]
 headless = true

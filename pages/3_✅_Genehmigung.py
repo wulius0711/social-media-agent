@@ -5,7 +5,6 @@ from src import post_store
 
 cfg.apply_to_env()
 
-st.set_page_config(page_title="Genehmigung", page_icon="✅", layout="wide")
 st.title("✅ Genehmigung")
 
 pending = post_store.get_pending()

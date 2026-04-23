@@ -1,3 +1,4 @@
+from typing import Optional
 import openai
 import requests
 import os
@@ -13,7 +14,7 @@ IMAGE_STYLE = (
 )
 
 
-def generate_image(topic: str) -> str | None:
+def generate_image(topic: str) -> Optional[str]:
     prompt = (
         f"Abstract visual concept representing: {topic}. "
         f"{IMAGE_STYLE} "

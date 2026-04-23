@@ -1,6 +1,5 @@
 import streamlit as st
 
-st.set_page_config(page_title="Handbuch", page_icon="📖", layout="wide")
 st.title("📖 Handbuch")
 st.caption("Alles was du wissen musst, um den Social Agent zu nutzen.")
 
@@ -250,9 +249,8 @@ Häufigste Ursache: LinkedIn Token abgelaufen → einfach erneuern (siehe oben).
 
 with st.expander("Wie ändere ich die Posting-Tage oder -Uhrzeit?"):
     st.markdown("""
-Das steht in der Datei `.github/workflows/post.yml` im GitHub Repo.
-Schick deinem Betreuer einfach eine Nachricht mit den gewünschten Tagen/Zeiten —
-das ist in 5 Minuten geändert.
+Geh zu **⚙️ Einstellungen** → Abschnitt **Posting-Zeitplan**.
+Dort kannst du Wochentage (Mehrfachauswahl) und Uhrzeit (Wiener Zeit) selbst festlegen und mit **Zeitplan speichern** direkt aktivieren — kein Support nötig.
     """)
 
 st.divider()

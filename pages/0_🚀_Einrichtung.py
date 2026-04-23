@@ -6,7 +6,6 @@ from src import config as cfg
 
 cfg.apply_to_env()
 
-st.set_page_config(page_title="Einrichtung", page_icon="🚀", layout="wide")
 
 c = cfg.load()
 
