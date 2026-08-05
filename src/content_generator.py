@@ -37,6 +37,15 @@ def _build_persona() -> str:
     return persona
 
 
+def _ai_disclosure() -> str:
+    lang = (os.environ.get("BUSINESS_LANGUAGE") or cfg.load().get("business_language", "Deutsch")).lower()
+    if "eng" in lang:
+        return "Created with AI assistance."
+    if "ital" in lang:
+        return "Creato con l'assistenza dell'IA."
+    return "Erstellt mit KI-Unterstützung."
+
+
 LENGTH_WORDS = {
     "Mini":   {"instagram": "20-40",   "linkedin": "50-100"},
     "Kurz":   {"instagram": "80-120",  "linkedin": "150-200"},
@@ -105,7 +114,7 @@ Regeln:
 Gib NUR den fertigen Post aus, keine Erklärungen."""
         }]
     )
-    caption = response.choices[0].message.content.strip()
+    caption = response.choices[0].message.content.strip() + f"\n\n{_ai_disclosure()}"
     return {"caption": caption, "topic": topic_title, "hook": topic_hook}
 
 
